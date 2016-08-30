@@ -31,8 +31,10 @@
                       selector:@selector(networkDidLogin:)
                           name:kJPFNetworkDidLoginNotification
                         object:nil];
-
+    //自定义通知
     [self initAPNsWithLaunchOptions:launchOptions];
+    
+    
   
   [[NSBundle mainBundle] loadNibNamed:@"JpushTabBarViewController"
                                 owner:self
@@ -46,6 +48,8 @@
 }
 
 
+
+#pragma mark - 注册 APNs 通知
 - (void)initAPNsWithLaunchOptions:(NSDictionary *)launchOptions{
 
     
@@ -71,6 +75,16 @@
             advertisingIdentifier:nil];
 }
 
+
+#pragma mark - 接收本地的通知
+- (void)application:(UIApplication *)application
+didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+    [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil];
+    
+    
+    
+}
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
