@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "ED131B7C319902332031B8EBD4430FE9FA78C98E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ED131B7C319902332031B8EBD4430FE9FA78C98E" : 0,
+    "E59056E86037E52B969F44FBFA2C3D118453EBF9" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4370E679-5AED-470D-9869-3EAC82731AB9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ED131B7C319902332031B8EBD4430FE9FA78C98E" : "demo\/",
+    "E59056E86037E52B969F44FBFA2C3D118453EBF9" : "demo\/CBWAlertSheet\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PushTest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PushTest.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/xeroxmx\/CBWAlertSheet.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E59056E86037E52B969F44FBFA2C3D118453EBF9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/xeroxmx\/demo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ED131B7C319902332031B8EBD4430FE9FA78C98E"
+    }
+  ]
+}

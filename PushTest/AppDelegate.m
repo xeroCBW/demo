@@ -28,23 +28,22 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(obserNotification:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                      selector:@selector(networkDidLogin:)
-                          name:kJPFNetworkDidLoginNotification
-                        object:nil];
+                                             selector:@selector(networkDidLogin:)
+                                                 name:kJPFNetworkDidLoginNotification
+                                               object:nil];
     //自定义通知
     [self initAPNsWithLaunchOptions:launchOptions];
     
-    
-  
-  [[NSBundle mainBundle] loadNibNamed:@"JpushTabBarViewController"
-                                owner:self
-                              options:nil];
-  self.window.rootViewController = self.rootController;
-  [self.window makeKeyAndVisible];
-  rootViewController = (RootViewController *)
-      [self.rootController.viewControllers objectAtIndex:0];
 
-  return YES;
+    [[NSBundle mainBundle] loadNibNamed:@"JpushTabBarViewController"
+                                  owner:self
+                                options:nil];
+    self.window.rootViewController = self.rootController;
+    [self.window makeKeyAndVisible];
+    rootViewController = (RootViewController *)
+    [self.rootController.viewControllers objectAtIndex:0];
+    
+    return YES;
 }
 
 
@@ -82,13 +81,10 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     
     [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil];
     
-    
-    
 }
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-
 
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }

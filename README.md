@@ -3,7 +3,10 @@ JPush 集成过程中遇到了很多坑,目前总结如下:
 
 ###经验总结
 
-1. 证书一定要用开发者的
+1. 制作证书一定要用有推送功能的账号
+
+	![制作 cer](http://upload-images.jianshu.io/upload_images/874748-29d9a52d0eb494fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400)
+
 2. 一定要使用真机
 3. jpush 定义的那个通知kJPFNetworkDidReceiveMessageNotification;是用于自定义的通知使用,不是 apps
 4. 可以不用 plist 文件,老的方法需要使用 plist
@@ -28,17 +31,8 @@ JPush 集成过程中遇到了很多坑,目前总结如下:
 5. 看别人的 sdk, 一定要看 demo;先下 demo 再去看文档
 6. JPush 开始先注册,以后每次是app 一启动进行登陆;
 7. app 完全退出后,还可以接收到通知
-8. 旺钱包-获取或刷新消息列表/旺钱包-获取或刷新最新消息—这个是我们请求数据等到的
-
-服务器端—http://docs.jiguang.cn/server/csharp_sdk/#_1
-
-1.可以设置多个参数—确定是用别名发的/还是用registrationId发的?
-
-public static Audience s_alias(params string[] values) //推送给多个别名，参数为："xxxxx1","xxxxxx2","xxxxxx3"
-2.服务器增加的字段—平台
-
-￼
-3.使用Push-API-v3发送推送信息
+9. 除此之外，应用已经在前台时，远程推送是无法直接显示的，要先捕获到远程来的通知，然后再发起一个本地通知才能完成现实。
+10. 在发起一个远程通知,也不可以实现下拉的样式,只能自己设置代码,例如 alertView 等样式
 
 ###实际操作
 
@@ -72,23 +66,53 @@ public static Audience s_alias(params string[] values) //推送给多个别名�
 		            advertisingIdentifier:nil];
 ```
 
-2. didRegisterForRemoteNotificationsWithDeviceToken在 APPLe注册成功后,注册 JPush
+2. didRegisterForRemoteNotificationsWithDeviceToken在 APPLe注册成功后会返回一个 DeviceToken,我们使用这个 DeviceToken注册 JPush
+
+	1. 苹果APNs的编码技术和deviceToken的独特作用保证了他的唯一性。唯一性并不是说一台设备上的一个应用程序永远只有一个deviceToken，当用户升级系统的时候deviceToken是会变化的。
+	2. JPush 帮我们同时注册了本地和远程的通知:原因,apple 注册通知只有一个方法,包括远程和本地
 
 	```
 	[JPUSHService registerDeviceToken:deviceToken];
 	```
 3. didFailToRegisterForRemoteNotificationsWithError,失败回调可以用来提醒
-4. didReceiveRemoteNotification接收到通知后进行处理
 
-```
-//先执行 JPush 的一些方法
- [JPUSHService handleRemoteNotification:userInfo];
- completionHandler(UIBackgroundFetchResultNewData);
- 
- //添加自己的方法--后台可以在推送的时候增加字段,这个时候就可以自己处理啦
- 
 
-```
+4. 处理接收到远程通知消息（会回调以下方法中的某一个）
+
+	1.application: didFinishLaunchingWithOptions:此方法在程序第一次启动是调用，也就是说App从Terminate状态进入Foreground状态的时候，根据方法内代码判断是否有推送消息。
+
+
+	```
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	
+	    //  userInfo为收到远程通知的内容
+	    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+	    if (userInfo) {
+	         // 有推送的消息，处理推送的消息
+	    }
+	    return YES；
+	}
+	application: didReceiveRemoteNotification:
+	
+	```
+
+	2.如果App处于Background状态时，只用用户点击了通知消息时才会调用该方法；如果App处于Foreground状态，会直接调用该方法。
+
+
+
+	```
+		- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
+		
+	
+	//先执行 JPush 的一些方法
+	 [JPUSHService handleRemoteNotification:userInfo];
+	 completionHandler(UIBackgroundFetchResultNewData);
+	 
+	 //添加自己的方法--后台可以在推送的时候增加字段,这个时候就可以自己处理啦
+	 
+	```
+
+
 5.定点发送通知--特定设备(registrationID)
 
 1. didFinishLaunchingWithOptions注册通知`kJPFNetworkDidLoginNotification`
@@ -136,4 +160,10 @@ public static Audience s_alias(params string[] values) //推送给多个别名�
 	
 	```
 	
-	[demo 地址](https://github.com/xeroxmx/demo.git)
+###参考资料
+
+[iOS推送之远程推送（iOS Notification Of Remote Notification）](http://www.jianshu.com/p/4b947569a548)
+
+[iOS推送之本地推送（iOS Notification Of Local Notification）](http://www.jianshu.com/p/77ee3b98c132)
+	
+[demo 地址](https://github.com/xeroxmx/demo.git)
